@@ -12,8 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-    //return view('auth.login');
+    //return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -31,4 +31,7 @@ Route::resource('category', 'CategoryController');
 Route::resource('brand', 'BrandController');
 
 Route::resource('product', 'ProductController');
-//Route::resource('user', 'UserController');
+
+Route::resource('user', 'UserController');
+
+Route::resource('inventory', 'InventoryController');

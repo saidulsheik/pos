@@ -22,7 +22,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href=""><b>PROJECT MANAGEMENT</a>
+    <a href=""><b>Pos System</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
