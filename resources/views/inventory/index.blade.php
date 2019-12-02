@@ -205,23 +205,26 @@
                         </div>
                         <div class="card-body">
                                 <table class="table table-bordered" id="example1">
-                                    <thead>                  
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Category</th>
-                                        <th>Brand</th>
-                                        <th>Model Name</th>
-                                        <th>Product Name</th>
-                                        <th>Available Quantity</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
+                                    <thead>  		                
+                                      <tr>
+                                          <th>Type</th>
+                                          <th>Brand</th>
+                                          <th>Model	Name</th>
+                                          <th>Quantity</th>
+                                          <th>PTotal Stok Price</th>
+                                          <th>Action</th>
+                                      </tr>
                                     </thead>
-                                    {{-- <tbody>
-                                        @if (!empty($products))
+                                   <tbody>
+                                        @if (!empty($inventories))
                                         @php($i=1)
-                                        @foreach ($products as $product)
-                                            <tr>
+                                        @foreach ($inventories as $inventory)
+                                          <?php 
+                                            echo '<pre>';
+                                              print_r($inventory);
+                                            echo '</pre>';
+                                          ?>
+                                            {{-- <tr>
                                                 <td>{{$i++}}</td>
                                                 <td> {{$product->category->name}}</td>
                                                 <td>  {{$product->brand->name}}</td>
@@ -234,14 +237,14 @@
                                                   ||
                                                   <i class="fas fa-trash" style="color:red"  title="Delete"></i>
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
                                         @endforeach
                                     @else
                                         <tr>
                                             <td colspan="4">No Data Found</td>
                                         </tr>
                                     @endif
-                                    </tbody> --}}
+                                    </tbody>
                                 </table>
                         </div>
                     </div>
