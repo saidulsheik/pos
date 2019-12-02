@@ -26,6 +26,22 @@
                           <strong>{{ $message }}</strong>
                   </div>
                   @endif
+                  @if (!empty($success))
+                  <div class="alert alert-success alert-block" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">×</button>	
+                          <strong>{{ $success}}</strong>
+                  </div>
+                  @endif
+                  @if ($errors->any())
+                  <div class="alert alert-success alert-block" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">×</button>	
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
               </div>
             </div>
             <div class="row">  
@@ -47,7 +63,19 @@
                           <form action="{{ url("inventory/$id") }}" method="post">
                             <input type="hidden" name="_method" value="{{$method}}">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                              
+                              <?php 
+                                if(!empty($inven)){
+                                 $inven_product_id=$inven['product_id'];
+                                 $supplier_name=$inven['supplier_name'];
+                                 $buyprice=$inven['buyprice'];
+                                 $saleprice=$inven['saleprice'];
+                                }else{
+                                  $inven_product_id='';
+                                  $supplier_name='';
+                                  $buyprice='';
+                                  $saleprice='';
+                                }
+                              ?>
                               <div class="row">
                                 <div class="col-sm-12">
                                   <!-- select option -->
@@ -56,7 +84,7 @@
                                     <select name="product_id" id="product_id" class="form-control select2">
                                       <option value="">Select Product</option>
                                       @foreach ($products as $product)
-                                        <option {{ !$product_id=!empty($inventory)  ? $product->product_id : '' }} {{ ($product_id==$product->id)  ? 'selected' : '' }} value="{{$product->id}}">{{$product->modelname}} -- ({{$product->brand->name}}) -- ({{$product->category->name}})</option>
+                                        <option {{ !$product_id=!empty($inventory)  ? $product->product_id : $inven_product_id }} {{ ($product_id==$product->id)  ? 'selected' : '' }} value="{{$product->id}}">{{$product->modelname}} -- ({{$product->brand->name}}) -- ({{$product->category->name}})</option>
                                       @endforeach
                                     </select>
                                   </div>
@@ -68,7 +96,7 @@
                                   <!-- text input -->
                                   <div class="form-group">
                                     <label>Supplier Name</label>
-                                    <input type="text" name="supplier_name" required class="form-control" placeholder="Enter Supplier Name" value="{{ !empty($inventory) ? $inventory->supplier_name :  !empty($supplier_name) ? $supplier_name: ''}}">
+                                    <input type="text" name="supplier_name" required class="form-control" placeholder="Enter Supplier Name" value="{{ !empty($inventory) ? $inventory->supplier_name :  $supplier_name}}">
                                   </div>
                                 </div>
                               </div>
@@ -77,7 +105,7 @@
                                   <!-- text input -->
                                   <div class="form-group">
                                     <label>Buy Price</label>
-                                    <input type="number" name="buyprice" required class="form-control" placeholder="Enter Buy Price" value="{{ !empty($inventory) ? $inventory->buyprice : '' }}">
+                                    <input type="number" name="buyprice" required class="form-control" placeholder="Enter Buy Price" value="{{ !empty($inventory) ? $inventory->buyprice : $buyprice }}">
                                   </div>
                                 </div>
                               </div>
@@ -86,7 +114,7 @@
                                   <!-- text input -->
                                   <div class="form-group">
                                     <label>Sale Price</label>
-                                    <input type="number" name="saleprice" required class="form-control" placeholder="Enter Sale Price" value="{{ !empty($inventory) ? $inventory->saleprice : '' }}">
+                                    <input type="number" name="saleprice" required class="form-control" placeholder="Enter Sale Price" value="{{ !empty($inventory) ? $inventory->saleprice : $saleprice }}">
                                   </div>
                                 </div>
                               </div>

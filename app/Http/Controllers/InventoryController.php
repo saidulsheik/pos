@@ -17,12 +17,14 @@ class InventoryController extends Controller
     {
         if( Auth::check() ){
             $inventory=[];
+            $inven=[];
             $inventories=Inventory::all();
             $products=Product::all();
             return view('inventory.index',[
                 'inventory'=>$inventory,
                 'inventories'=>$inventories,
                 'products'=>$products,
+                 'inven'=>$inven,
             ]);
         }
     }
@@ -45,22 +47,41 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        $inventories=Inventory::all();
-        $products=Product::all();
-        $inven=[
-            'id' => '',
-            'product_id' => $request->input('product_id'),
-            'supplier_name' => $request->input('supplier_name'),
-            'buyprice' => $request->input('buyprice'),
-            'saleprice' => $request->input('saleprice'),
-            'serial' => '',
-        ];
-      
-        return view('inventory.index',[
-            'inven'=>$inven,
-            'inventories'=>$inventories,
-            'products'=>$products,
-        ]);
+        if(Auth::check()){
+
+            $request->validate([
+                'serial' => 'unique:inventories'
+            ]);
+
+            $inventories=Inventory::all();
+            $products=Product::all();
+            $inven=[
+                'product_id' => $request->input('product_id'),
+                'supplier_name' => $request->input('supplier_name'),
+                'buyprice' => $request->input('buyprice'),
+                'saleprice' => $request->input('saleprice'),
+            ];
+            $storeinventory = Inventory::create([
+                'product_id' => $request->input('product_id'),
+                'supplier_name' => $request->input('supplier_name'),
+                'buyprice' => $request->input('buyprice'),
+                'saleprice' => $request->input('saleprice'),
+                'serial' => $request->input('serial'),
+                'buydate' => date("Y-m-d"),
+                'quantity' => 1,
+            ]);
+            if($storeinventory){
+                return view('inventory.index', [
+                    'inventoryid'=> $storeinventory->id,
+                    'inven'=>$inven,
+                    'inventories'=>$inventories,
+                    'products'=>$products,
+                    'success'=> 'Product Added successfully',
+                    ]);
+            }
+        }
+        return back()->withInput()->with('errors', 'Error creating new Product');
+       
     }
 
     /**
