@@ -787,6 +787,10 @@
           $("#successMessage").hide('blind', {}, 200)
       }, 5000);
      });
+
+     $("#addinventory").submit(function(event) {
+        $('#myField').focus();
+    }); 
 </script>
 </body>
 </html>

@@ -60,7 +60,7 @@
                           {{-- {{Route::currentRouteName()}} --}}
                           @php($id = !empty($inventory) ? $inventory->id : '')
                           @php($method = !empty($inventory) ? 'PUT' : 'POST')
-                          <form action="{{ url("inventory/$id") }}" method="post">
+                          <form action="{{ url("inventory/$id") }}" method="post" id="addinventory">
                             <input type="hidden" name="_method" value="{{$method}}">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
                               <?php 
@@ -122,72 +122,11 @@
                                 <div class="col-sm-12">
                                   <!-- text input -->
                                   <div class="form-group">
-                                    <label>Supplier Name</label>
-                                    <input type="text" name="serial" required class="form-control" placeholder="Enter Product Serial" value="{{ !empty($inventory) ? $inventory->serial : '' }}">
+                                    <label>Product Serial</label>
+                                    <input type="text" id="myField" name="serial" required class="form-control" placeholder="Enter Product Serial" value="{{ !empty($inventory) ? $inventory->serial : '' }}">
                                   </div>
                                 </div>
                               </div>
-                              {{-- <div class="row">
-                                <div class="col-sm-12">
-                                  <!-- select option -->
-                                  <div class="form-group">
-                                    <label>Brand</label>
-                                    <select name="brand_id" id="brand_id" class="form-control select2">
-                                      <option value="">Select Brand Name</option>
-                                      @foreach ($brands as $brand)
-                                        <option {{ !$brand_id=!empty($product)  ? $product->brand_id : '' }} {{ ($brand_id==$brand->id)  ? 'selected' : '' }} value="{{$brand->id}}">{{$brand->name}}</option>
-                                      @endforeach
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-sm-12">
-                                  <!-- text input -->
-                                  <div class="form-group">
-                                    <label>Model Name</label>
-                                    <input type="text" name="modelname" requireed class="form-control" placeholder="Enter Model Name"  value="{{ !empty($product) ? $product->modelname : '' }}">
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="row">
-                                <div class="col-sm-12">
-                                  <!-- text input -->
-                                  <div class="form-group">
-                                    <label>Product Name</label>
-                                    <input type="text" name="productname" requireed class="form-control" placeholder="Enter Product Name"  value="{{ !empty($product) ? $product->productname : '' }}">
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="row">
-                                <div class="col-sm-12">
-                                  <!-- select option -->
-                                  <div class="form-group">
-                                    <label>Is Serialised?</label>
-                                    <select name="isserialised" id="isserialised" class="form-control">
-                                    <option {{!$isserialised=!empty($product)  ? $product->isserialised : '' }} {{($isserialised=='yes')  ? 'selected' : ''}} value="yes">Yes</option>
-                                    <option {{!$isserialised=!empty($product)  ? $product->isserialised : '' }} {{($isserialised=='no')  ? 'selected' : ''}} value="no">No</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              </div>
-                              @if (!empty($product))
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                      <div class="form-group">
-                                        <label>Status</label>
-                                        <select name="status" id="status" class="form-control">
-                                        <option {{!$status=!empty($product)  ? $product->status : '' }} {{($status==1)  ? 'selected' : ''}} value="1">Active</option>
-                                        <option {{!$status=!empty($product)  ? $product->status : '' }} {{($status==0)  ? 'selected' : ''}} value="0">Inactive</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                </div>
-                              @endif --}}
-                               
-
                         </div>
 
                     <div class="card-footer">
@@ -219,15 +158,11 @@
                                         @if (!empty($inventories))
                                         @php($i=1)
                                         @foreach ($inventories as $inventory)
-                                          <?php 
-                                            echo '<pre>';
-                                              print_r($inventory);
-                                            echo '</pre>';
-                                          ?>
-                                            {{-- <tr>
+                                          
+                                            <tr>
                                                 <td>{{$i++}}</td>
-                                                <td> {{$product->category->name}}</td>
-                                                <td>  {{$product->brand->name}}</td>
+                                                <td> {{$inventory->product->name}}</td>
+                                                {{-- <td>  {{$product->brand->name}}</td>
                                                 <td>  {{$product->modelname}}</td>
                                                 <td>  {{$product->productname}}</td>
                                                 <td> 00</td>
@@ -236,8 +171,8 @@
                                                   <a href="{{ URL::to("product/$product->id/edit") }}"> <i class="fas fa-edit" style="color:#007bff"></i></a>
                                                   ||
                                                   <i class="fas fa-trash" style="color:red"  title="Delete"></i>
-                                                </td>
-                                            </tr> --}}
+                                                </td> --}}
+                                            </tr> 
                                         @endforeach
                                     @else
                                         <tr>
@@ -254,4 +189,3 @@
     </section>
 @endsection
 
-                   
