@@ -146,11 +146,13 @@
                                 <table class="table table-bordered" id="example1">
                                     <thead>  		                
                                       <tr>
-                                          <th>Type</th>
+                                          <th>Category</th>
                                           <th>Brand</th>
                                           <th>Model	Name</th>
-                                          <th>Quantity</th>
-                                          <th>PTotal Stok Price</th>
+                                          <th>Serial</th>
+                                          <th>Supplier</th>
+                                          <th>Buy Price</th>
+                                          <th>Sale Price</th>
                                           <th>Action</th>
                                       </tr>
                                     </thead>
@@ -158,21 +160,38 @@
                                         @if (!empty($inventories))
                                         @php($i=1)
                                         @foreach ($inventories as $inventory)
-                                          
-                                            <tr>
-                                                <td>{{$i++}}</td>
-                                                <td> {{$inventory->product->name}}</td>
-                                                {{-- <td>  {{$product->brand->name}}</td>
-                                                <td>  {{$product->modelname}}</td>
-                                                <td>  {{$product->productname}}</td>
-                                                <td> 00</td>
-                                                <td>{{$product->status==1? 'Active':'Inactive'}}</td>
-                                                <td style="text-align:center"  title="Edit"> 
-                                                  <a href="{{ URL::to("product/$product->id/edit") }}"> <i class="fas fa-edit" style="color:#007bff"></i></a>
-                                                  ||
-                                                  <i class="fas fa-trash" style="color:red"  title="Delete"></i>
-                                                </td> --}}
-                                            </tr> 
+                                        <?php 
+                                            // $productBrandCategories = DB::table('inventories')
+                                            //   ->join('products', 'inventories.product_id', '=', 'products.id')
+                                            //   ->join('brands', 'products.brand_id', '=', 'brands.id')
+                                            //   ->join('categories', 'products.category_id', '=', 'categories.id')
+                                            //   ->select('inventories.buyprice','inventories.saleprice', 'inventories.serial', 'inventories.supplier_name', 'products.modelname', 'products.productname', 'brands.name as bname', 'categories.name as catname')
+                                            //   ->where('products.id', $inventory->product_id)
+                                            //   ->get();
+                                            $categories=DB::table('categories')
+                                                      ->join('products', 'categories.id','=', 'products.category_id')
+                                                      ->join('brands', 'brands.id','=', 'products.brand_id')
+                                                      ->select('categories.name as catname', 'brands.name as bname', 'products.modelname', 'products.productname')
+                                                      ->where('products.id', $inventory->product_id)
+                                                      ->get();
+                                          ?>
+                                          @foreach ($categories as $category)
+                                          <tr>
+                                            <td>{{$category->catname}}</td>
+                                            <td>{{$category->bname}}</td>
+                                            <td>{{$category->modelname}}</td>
+                                            <td>{{$inventory->serial}}</td>
+                                            <td>{{$inventory->supplier_name}}</td>
+                                            <td>{{$inventory->buyprice}}</td>
+                                            <td>{{$inventory->saleprice}}</td>
+                                            <td style="text-align:center"  title="Edit"> 
+                                              <a href="{{ URL::to("inventory/$inventory->id/edit") }}"> <i class="fas fa-edit" style="color:#007bff"></i></a>
+                                              ||
+                                              <i class="fas fa-trash" style="color:red"  title="Delete"></i>
+                                            </td>
+                                          </tr>
+                                          @endforeach
+                                         
                                         @endforeach
                                     @else
                                         <tr>
